@@ -1,4 +1,8 @@
 export const BACKEND='https://uka-market-tiktok.nurpeisovbg847.workers.dev';
+export function resetReviewSession(storage){
+ storage.removeItem('uka_review_session');
+ storage.removeItem('uka_review_verifier');
+}
 export function viewForJob(job){
  const success=job.inbox_delivered || job.status==='SEND_TO_USER_INBOX';
  const failed=job.status==='FAILED' || job.state==='INIT_REJECTED';
@@ -9,6 +13,12 @@ export function mount(doc=globalThis.document){
  const el=id=>doc.getElementById(id);
  let session=sessionStorage.getItem('uka_review_session'),videoHash=null,busy=false,pollTimer=null,polls=0;
  const notify=text=>{el('notice').textContent=text;el('notice').hidden=!text;};
+ el('reset-session').addEventListener('click',()=>{
+  if(busy)return;
+  clearTimeout(pollTimer);
+  resetReviewSession(sessionStorage);
+  location.reload();
+ });
  async function api(path,body){
   const headers={};if(session)headers.Authorization='Bearer '+session;
   if(body!==undefined)headers['Content-Type']='application/json';
@@ -65,7 +75,7 @@ export function mount(doc=globalThis.document){
    if(code){const verifier=sessionStorage.getItem('uka_review_verifier');if(!verifier)throw new Error('Откройте подключение заново в этом браузере.');
     const result=await api('session',{code,verifier});session=result.session;sessionStorage.setItem('uka_review_session',session);sessionStorage.removeItem('uka_review_verifier');}
    if(!session)return;
-   el('connection').textContent='TikTok подключён';el('connect').hidden=true;
+   el('connection').textContent='TikTok подключён';el('connect').hidden=true;el('reset-session').hidden=false;
    try{const me=await api('me');el('profile').hidden=false;el('display-name').textContent=me.profile.display_name;el('avatar').hidden=!me.profile.avatar_url;if(me.profile.avatar_url)el('avatar').src=me.profile.avatar_url;}
    catch(e){notify('Не удалось получить профиль. '+e.message);}
    if(session)await poll();

@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src https://uka-market-tiktok.nurpeisovbg847.workers.dev; img-src 'self' https:; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="description" content="Подготовка и отправка товарного видео в TikTok для ручного редактирования и публикации.">
 <title>Uka Market AutoPoster</title><link rel="stylesheet" href="review.css">
-<script type="module" src="review.mjs"></script>
+<script type="module" src="review.mjs?v=session-reset-1"></script>
 </head>
 <body>
 <main>
@@ -14,9 +14,10 @@
 <p class="intro">Подготовка и отправка товарного видео в TikTok для ручного редактирования и публикации.</p>
 <section class="card" aria-labelledby="connection-title">
 <div class="step">1 · ПОДКЛЮЧЕНИЕ</div><h2 id="connection-title">Ваш TikTok</h2>
-<p id="connection" role="status">Подключите аккаунт, в который хотите отправить видео.</p>
+<p id="connection" role="status">TikTok не подключён. Подключите аккаунт, в который хотите отправить видео.</p>
 <div id="profile" class="profile" hidden><img id="avatar" alt="Аватар TikTok" width="52" height="52" referrerpolicy="no-referrer"><strong id="display-name"></strong></div>
 <button id="connect" type="button">Подключить TikTok</button>
+<button id="reset-session" type="button" class="secondary" hidden>Начать подключение заново</button>
 <p class="hint">Вы подтвердите доступ на официальной странице TikTok. Пароль TikTok здесь не нужен.</p>
 </section>
 <section class="card" aria-labelledby="video-title">
